@@ -2,49 +2,14 @@ import asyncio
 import discord
 import psutil
 import time
+from Clients import VoiceClient
 from math import exp
 from discord.ext import commands
 
 discord.opus.load_opus
 client = discord.Client()
 
-
-
-# I have a few things to abstract so we'll make an object to wrap up the entire 
-# client class
-class VoiceClient:
-    teamNames = [["attention-bot", 0]]
-    def __init__(self, client):
-        self.voiceStatus = None
-        self.client = client
-        self.voice = None
-        self.teamScore = None
-
-    async def saySomething(self, msgToSay, message):
-        await client.send_message(message.channel, msgToSay)
-
-    async def reportScores(self, x):
-        voiceBot.teamNames.sort(key=lambda x: x[1], reverse=True)
-        scoreMsg = "Scores:\n"
-        for names in voiceBot.teamNames:
-            scoreMsg += names[0] + " : " + str(names[1]) + "\n"
-
-        await voiceBot.saySomething(scoreMsg, x)
-
-    def incScore(self, auth):
-        print(self.teamNames.index(auth.author.name))
-
 voiceBot = VoiceClient(client)
-
-
-
-def addMember(auth):
-    print(voiceBot.teamNames)
-    for x in voiceBot.teamNames:
-        if auth.name == x[0]:
-            return
-    
-    voiceBot.teamNames.append([auth.name, 1])
 
 #loads any media the bot may need (sounds).
 async def datasName():
@@ -88,7 +53,7 @@ async def on_message(message):
         return
 
 
-    addMember(message.author)
+    voiceBot.addMember(message.author)
 
     if message.content.startswith('data diagnostic'):
         errors = 0
