@@ -1,6 +1,5 @@
 import asyncio
 import discord
-import psutil
 import time
 from Clients import VoiceClient
 from math import exp
@@ -28,13 +27,6 @@ async def joinVoiceChannel():
     voiceBot.voice = voice
     print('Bot should joined the Channel')
 
-
-@client.event
-async def on_member_join(member):
-    server = member.server
-    fmt = 'Welcome {0.mention} to {1.name}!'
-    await client.send_message(server, fmt.format(member, server))
-
 # Python doesn't have a switch/case statemetn -_-
 # format for finding substring in messange:
 # x.content.find(STRING_YOURE_LOOKING_FOR) >= 0 : FUNCTION_OR_ACTION
@@ -43,6 +35,8 @@ async def switch(x):
         await voiceBot.reportScores(x)
     elif (x.content.find("my score") >= 0):
         await voiceBot.incScore(x)
+    elif (x.content.startswith('data diagnostic')): 
+        await voiceBot.performDiagnostic(x)
     else:
         await voiceBot.saySomething("Sorry I don't understand", x)
 
@@ -55,41 +49,7 @@ async def on_message(message):
 
     voiceBot.addMember(message.author)
 
-    if message.content.startswith('data diagnostic'):
-        errors = 0
-        warns = 0
-        THRESHOLD = 100 * 1024 * 2014 # 100MB
-
-        tmp = psutil.sensors_temperatures(fahrenheit=False)['acpitz'][0].current
-        cpuPer = psutil.cpu_percent(interval=1)
-        mem = psutil.virtual_memory()
-        if tmp > 50:
-            errors += 1
-        if cpuPer > 90 or mem.available <= THRESHOLD:
-            warns += 1
-
-        msg = 'Here\'s what I\'ve got\n'
-        if(discord.opus.is_loaded()): msg += 'opus: UP\n'
-        else: msg += 'opus: ❌'
-        msg += 'CPU: ' + str(cpuPer) + '%\n'
-        msg += 'Temp: ' + str(tmp) + '°C\n'
-        msg += 'Mem: ' + str((int(mem.free) / 1024**2)) + 'MB\n'
-        msg += 'names: \n'
-        for names in voiceBot.teamNames:
-            msg += '\t' 
-            msg += names[0] 
-            msg += '\n'
-
-        if errors == 0 and warns == 0:
-            msg += 'Everything looks good ✅'
-        elif errors > 0:
-            msg += '\nSir I\'m having SERIOUS issues can I restart?❌❌'
-        elif warns > 0:
-            msg += '\nSir I\'m not feeling well. ❌'
-        await client.send_message(message.channel, msg)
-        
-
-    elif (message.content.find("pronounce data") >= 0):
+    if (message.content.find("pronounce data") >= 0):
         await datasName()
 
     elif ((message.content.find("bitch") >= 0 or message.content.find("fuck") >= 0 or message.content.find("faggot") >= 0) and (message.content.find("data") >= 0) or (message.content.find("Data") >= 0) ):
