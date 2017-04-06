@@ -1,3 +1,4 @@
+import os
 import asyncio
 import discord
 import time
@@ -19,7 +20,11 @@ client = discord.Client()
 
 voiceBot = VoiceClient(client)
 
-fIn = open("defnotkeys")
+
+fileName = "defnotkeys"
+fileDir = os.path.dirname(os.path.realpath(__file__)) # directory to find private key file
+fileDir += "/defnotkeys"
+fIn = open(fileDir)
 privateKey = ""
 # grabs the key from local .gitignore-ed file
 def assignKey():
