@@ -53,15 +53,14 @@ class VoiceClient:
         await self.saySomething(scoreMsg, x)
 
     async def performDiagnostic(self, message):
-        THRESHOLD = 100 * 1024 * 2014 # 100MB
-
+    
         tmp = os.popen('vcgencmd measure_temp').readline()
         tmp = tmp.replace("temp=","").replace("'C\n","")
         cpuPer = psutil.cpu_percent(interval=1)
         mem = str(psutil.virtual_memory().percent)
         if int(tmp) > 50:
             self.errors += 1
-        if cpuPer > 90 or mem.available <= THRESHOLD:
+        if cpuPer > 80 or psutil.virtual_memory().percent > 50:
             self.warns += 1
 
         msg = 'Here\'s what I\'ve got\n'
