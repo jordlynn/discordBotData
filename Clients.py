@@ -5,9 +5,10 @@ from Users import User
 from random import randint
 import psutil
 import discord
+
 # I have a few things to abstract so we'll make an object to wrap up the entire 
-# client class
-class VoiceClient:
+# client class, maybe we can extend it?
+class VoiceClient(discord.client):
     selfUser = User("Data", 0)
     testUser = User("foo", 5)
     teamNames = [selfUser, testUser]
