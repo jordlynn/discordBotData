@@ -59,7 +59,7 @@ class VoiceClient:
         tmp = tmp.replace("temp=","").replace("'C\n","")
         cpuPer = psutil.cpu_percent(interval=1)
         mem = str(psutil.virtual_memory().percent)
-        if tmp > 50:
+        if int(tmp) > 50:
             self.errors += 1
         if cpuPer > 90 or mem.available <= THRESHOLD:
             self.warns += 1
