@@ -55,9 +55,10 @@ class VoiceClient:
     async def performDiagnostic(self, message):
         THRESHOLD = 100 * 1024 * 2014 # 100MB
 
-        tmp = psutil.sensors_temperatures(fahrenheit=False)['acpitz'][0].current
+        tmp = os.popen('vcgencmd measure_temp').readline()
+        tmp = tmp.replace("temp=","").replace("'C\n","")
         cpuPer = psutil.cpu_percent(interval=1)
-        mem = psutil.virtual_memory()
+        mem = str(psutil.virtual_memory().percent)
         if tmp > 50:
             self.errors += 1
         if cpuPer > 90 or mem.available <= THRESHOLD:
