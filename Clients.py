@@ -69,7 +69,7 @@ class VoiceClient:
         msg += 'I\'m on: ' + socket.gethostname() + '\n'
         msg += 'CPU: ' + str(cpuPer) + '%\n'
         msg += 'Temp: ' + str(tmp) + '°C\n'
-        msg += 'Mem: ' + str(int(int(mem.free) / 1024**2)) + 'MB\n'
+        msg += 'Mem: ' + mem + '%\n'
         msg += 'Tracking ' + str(len(self.teamNames)) + ' users.\n'
 
         if self.errors == 0 and self.warns == 0:
