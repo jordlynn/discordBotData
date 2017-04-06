@@ -7,6 +7,7 @@ Using the Discord client you should have a pretty solid understanding of multita
 You'll need to install a few things, first you'll need a working python build **with version >= 3.5** if you are going to use something lower you'll need to translate some of the code, and make your own branch. This will also go much smoother if you have ``pip`` installed, if you're on a *nix OS just run something like:
 
 Arch Linux ``sudo pacman -Syu python-pip``
+
 Debian/Ubuntu ``sudo apt-get install python-pip``
 
 Once python is fully put together with pip you can follow the instructions on the discord.py git repo, I'll also post the Arch instructions below.
