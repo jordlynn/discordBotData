@@ -12,6 +12,8 @@ class VoiceClient(discord.client):
     selfUser = User("Data", 0)
     testUser = User("foo", 5)
     teamNames = [selfUser, testUser]
+
+    # 'constructor' if you wanna call it that.
     def __init__(self, client):
         self.voiceStatus = None
         self.client = client
