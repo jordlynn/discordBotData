@@ -41,7 +41,7 @@ assignKey() # assign key
 async def datasName():
     await joinVoiceChannel()
     
-    player = voiceBot.voice.create_ffmpeg_player("media/dataNameShort.mp3")
+    player = voiceBot.voice.create_ffmpeg_player("media/dataNameShort.mp3", use_avconv=True)
     player.start()
 
     voiceBot.voice.disconnect()
