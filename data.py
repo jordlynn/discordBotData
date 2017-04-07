@@ -38,8 +38,8 @@ def assignKey():
 
 assignKey() # assign key
 #loads any media the bot may need (sounds).
-async def datasName():
-    await joinVoiceChannel()
+async def datasName(message):
+    await joinVoiceChannel(message.author.voiceChannel)
     
     player = voiceBot.voice.create_ffmpeg_player("media/dataNameShort.mp3", use_avconv=True)
     player.start()
@@ -48,8 +48,8 @@ async def datasName():
 
 
 # puts the client in the "general" channel, right click and copy channel ID
-async def joinVoiceChannel():
-    channel = client.get_channel('246101402361790474') # TODO change to author.channel
+async def joinVoiceChannel(authorChannel):
+    channel = client.get_channel(authorChannel) # TODO change to author.channel
     voice = await client.join_voice_channel(channel)
     voiceBot.voice = voice
     print('Bot should joined the Channel')
@@ -65,7 +65,7 @@ async def switch(x):
     elif (x.content.startswith('data diagnostic')): 
         await voiceBot.performDiagnostic(x)
     elif (x.content.find("pronounce data") >= 0):
-        await datasName()
+        await datasName(x)
     elif (x.content.find("kill yourself") >= 0):
         await voiceBot.beginAuthorize(x)
     elif (x.content.find("reboot") >= 0):
@@ -105,4 +105,4 @@ async def on_ready():
     print('------')
 
 
-client.run(privateKey)
+client.run('Mjk5MjgyODQ4MTAyNDgxOTIw.C8hq3w.bEqn3-kU5NWnTSwdMmjSdksPLHY')
