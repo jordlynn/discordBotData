@@ -39,7 +39,8 @@ def assignKey():
 assignKey() # assign key
 #loads any media the bot may need (sounds).
 async def datasName(message):
-    await joinVoiceChannel(message.author.voiceChannel)
+    print(message.author.voice.voice_channel.id)
+    await joinVoiceChannel(message.author.voice.voice_channel.id)
     
     player = voiceBot.voice.create_ffmpeg_player("media/dataNameShort.mp3", use_avconv=True)
     player.start()
