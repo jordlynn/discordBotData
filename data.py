@@ -105,4 +105,4 @@ async def on_ready():
     print('------')
 
 
-client.run('Mjk5MjgyODQ4MTAyNDgxOTIw.C8hq3w.bEqn3-kU5NWnTSwdMmjSdksPLHY')
+client.run(privateKey)
