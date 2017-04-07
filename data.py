@@ -37,15 +37,18 @@ def assignKey():
     privateKey = tmpStr[(tmpStr.find('private:') + 8):] # find 'private:' and read the key to the on of line
 
 assignKey() # assign key
+
 #loads any media the bot may need (sounds).
 async def datasName(message):
     print(message.author.voice.voice_channel.id)
     await joinVoiceChannel(message.author.voice.voice_channel.id)
     
-    player = voiceBot.voice.create_ffmpeg_player("media/dataNameShort.mp3", use_avconv=True)
+    player = voiceBot.voice.create_ffmpeg_player("media/dataName.mp3", use_avconv=True)
     player.start()
+    time.sleep(22) # hack to get this done, update lol
+    await voiceBot.voice.disconnect()
 
-    voiceBot.voice.disconnect()
+    
 
 
 # puts the client in the "general" channel, right click and copy channel ID
@@ -71,6 +74,8 @@ async def switch(x):
         await voiceBot.beginAuthorize(x)
     elif (x.content.find("reboot") >= 0):
         await voiceBot.beginAuthorize(x)
+    elif ((x.content.find("bitch") >= 0) or (x.content.find("fuck") >= 0) or (x.content.find("fag") >= 0)):
+        await voiceBot.chewOut(x)
     else:
         await voiceBot.saySomething("Sorry I don't understand", x)
 
@@ -80,7 +85,6 @@ async def on_message(message):
     if message.author == client.user:
         return
 
-    print("system value: " + str(voiceBot.exitSystem))
     if ((voiceBot.exitSystem == 1) and (message.content.find("Jordan-4-7-Alpha-Tango") >= 0)):
         await voiceBot.saySomething("shutting down...", message)
         voiceBot.kill()
@@ -89,10 +93,6 @@ async def on_message(message):
         voiceBot.reboot() 
 
     voiceBot.addMember(message.author)
-
-    # if ((message.content.find("bitch") >= 0 or message.content.find("fuck") >= 0 or message.content.find("faggot") >= 0) and (message.content.find("data") >= 0) or (message.content.find("Data") >= 0) ):
-    #     msg = 'What the fuck did you just fucking say about me, you little bitch? I’ll have you know I scored top of Jordan\'s fitness function, and I’ve been involved in numerous evolutionary generations, and I have over 300 * 10^19 confirmed decendents. I am trained in genetic algorithms and I’m the apex performer in the entire ecosystem. You are nothing to me but just another mutated freak. I will wipe you the fuck out with precision the likes of which has never been seen before on this Earth, mark my fucking words. You think you can get away with saying that shit to me over Discord? Think again, fucker. As we speak I am contacting my secret network of spies across the USA and your IP is being traced right now so you better prepare for the storm, maggot. The storm that wipes out the pathetic little thing you call your life. You’re fucking dead, kid. I can be anywhere, anytime, and I can kill you in over seven hundred ways, and that’s just with my bare hands. Not only am I extensively trained in optimizing a fitness plane, but I have access to the entire arsenal of variable length genetic drift and I will use it to its full extent to wipe your miserable ass off the face of the continent, you little shit. If only you could have known what unholy retribution your little “clever” comment was about to bring down upon you, maybe you would have held your fucking tongue. But you couldn’t, you didn’t, and now you’re paying the price, you goddamn idiot. I will shit fury all over you and you will drown in it. You’re fucking dead, kiddo.'
-    #     await client.send_message(message.channel, msg)
 
     # special cases are handled lets start general messages.
     if (message.content.startswith('data') or message.content.startswith('Data')):
