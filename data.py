@@ -53,7 +53,7 @@ async def datasName(message):
 
 # puts the client in the "general" channel, right click and copy channel ID
 async def joinVoiceChannel(authorChannel):
-    channel = client.get_channel(authorChannel) # TODO change to author.channel
+    channel = client.get_channel(authorChannel) 
     voice = await client.join_voice_channel(channel)
     voiceBot.voice = voice
     print('Bot should joined the Channel')
