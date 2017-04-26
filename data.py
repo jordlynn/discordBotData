@@ -77,7 +77,7 @@ async def switch(x):
     elif ((x.content.find("bitch") >= 0) or (x.content.find("fuck") >= 0) or (x.content.find("fag") >= 0)):
         await voiceBot.chewOut(x)
     else:
-        await voiceBot.saySomething("Sorry I don't understand", x)
+        await voiceBot.unknownCovo(x)
 
 @client.event
 async def on_message(message):

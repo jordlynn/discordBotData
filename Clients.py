@@ -30,6 +30,22 @@ class VoiceClient:
     def kill(self):
         sys.exit()
 
+    async def unknownCovo(self, message):
+        tmpmsg = "Sorry I don't understand, but I'm "
+        tmpAmount = randint(-150000, 150000)
+        
+        if(tmpAmount >= 0):
+            tmpmsg += "giving you " + str(tmpAmount) + " points!"
+        else:
+            tmpmsg += "removing " + str(tmpAmount) +" points, let that be a lesson."
+
+        for person in self.teamNames:
+            if person.name == message.author.name:
+                person.score += tmpAmount
+                await self.saySomething(tmpmsg, message) # Note editing this to not send message if the player doesn't exist for some reason...
+        
+
+
     def reboot(self):
         dataProgram = sys.executable
         os.execl(dataProgram, dataProgram, *sys.argv)
