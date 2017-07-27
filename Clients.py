@@ -3,7 +3,7 @@
 
 from Users import User
 from random import randint
-import psutil
+from payClient import amznPay
 import discord
 import socket
 import sys
@@ -17,6 +17,7 @@ class VoiceClient:
     testUser = User("foo", 5)
     teamNames = [selfUser, testUser]
     exitSystem = 0 # zero for standby, 1 for authorizing
+
     # 'constructor' if you wanna call it that.
     def __init__(self, client):
         self.voiceStatus = None
@@ -25,6 +26,7 @@ class VoiceClient:
         self.teamScore = None
         self.errors = 0
         self.warns = 0
+        self.payClient = amznPay()
 
     # if we're having issues with the bot this will kill him
     def kill(self):
@@ -32,28 +34,8 @@ class VoiceClient:
 
     async def unknownCovo(self, message):
         tmpmsg = "Sorry I don't understand, but I'm "
-        tmpAmount = randint(-150000, 150000)
+        await self.saySomething(tmpmsg, message)
         
-        if(tmpAmount >= 0):
-            tmpmsg += "giving you " + str(tmpAmount) + " points!"
-        else:
-            tmpmsg += "removing " + str(tmpAmount) +" points, let that be a lesson."
-
-        for person in self.teamNames:
-            if person.name == message.author.name:
-                person.score += tmpAmount
-                await self.saySomething(tmpmsg, message) # Note editing this to not send message if the player doesn't exist for some reason...
-        
-
-
-    def reboot(self):
-        dataProgram = sys.executable
-        os.execl(dataProgram, dataProgram, *sys.argv)
-
-    async def chewOut(self, message):
-         msg = 'What the fuck did you just fucking say about me, you little bitch? I’ll have you know I scored top of Jordan\'s fitness function, and I’ve been involved in numerous evolutionary generations, and I have over 300 * 10^19 confirmed decendents. I am trained in genetic algorithms and I’m the apex performer in the entire ecosystem. You are nothing to me but just another mutated freak. I will wipe you the fuck out with precision the likes of which has never been seen before on this Earth, mark my fucking words. You think you can get away with saying that shit to me over Discord? Think again, fucker. As we speak I am contacting my secret network of spies across the USA and your IP is being traced right now so you better prepare for the storm, maggot. The storm that wipes out the pathetic little thing you call your life. You’re fucking dead, kid. I can be anywhere, anytime, and I can kill you in over seven hundred ways, and that’s just with my bare hands. Not only am I extensively trained in optimizing a fitness plane, but I have access to the entire arsenal of variable length genetic drift and I will use it to its full extent to wipe your miserable ass off the face of the continent, you little shit. If only you could have known what unholy retribution your little “clever” comment was about to bring down upon you, maybe you would have held your fucking tongue. But you couldn’t, you didn’t, and now you’re paying the price, you goddamn idiot. I will shit fury all over you and you will drown in it. You’re fucking dead, kiddo.'
-         await self.saySomething(msg, message)
-
     async def beginAuthorize(self, message):
         await self.saySomething("Command authorization code:", message)
         if message.content.find("kill") >= 0:
@@ -64,12 +46,9 @@ class VoiceClient:
     async def saySomething(self, msgToSay, message):
             await self.client.send_message(message.channel, msgToSay)
 
-    async def reportScores(self, x):
-        scoreMsg = "Scores:\n"
-        self.teamNames.sort( key=lambda x: x.score,reverse=True)
-        for user in self.teamNames:
-            scoreMsg += user.name + " : " + str(user.score) + "\n"
-        await self.saySomething(scoreMsg, x)
+    async def pizzaRoutine(self, message):
+        await self.saySomething("alright ordering your regular...", message)
+        self.payClient.SetORD()
 
     async def performDiagnostic(self, message):
     
